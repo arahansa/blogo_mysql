@@ -1,0 +1,53 @@
+{{template "header" .}}
+	<table id="table_board" class="list  board_table">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>닉네임</th>
+				<th>날짜</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+		<tbody>	
+				{{if not .articles}}
+				<tr>
+					<td colspan="5">
+						<p>	
+  						게시글이 없습니다.
+						</p>
+					</td>			
+				</tr>
+				{{else}}
+				{{range (.articles)}}		
+				<tr>
+					<td>{{.Id}}</td>
+					<td>
+						<a href="/board/read/{{.Id}}">{{.Subject}}</a>
+					</td>
+						<td>{{.Usernick}}</td>
+						<td>{{.DayWrite.Format "2006-01-02"}}</td>
+						<td>{{.NumRead}}</td>
+				</tr>
+				{{end}}
+				{{end}}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					{{ if gt .pageInfo.BeginPage 10 }}
+						<a class="prev" href="/board/page/{{.pageInfo.PrevBeginPage}}">이전</a>
+					{{end}}
+					{{range .pageInfo.Pagenation}}
+						<a href="/board/page/{{.}}">{{.}}</a>
+					{{end}}
+					{{if lt .pageInfo.EndPage .pageInfo.TotalPageCount}}
+						<a href="/board/page/{{.pageInfo.NextEndPage}}">다음</a>
+					{{end}}
+					<a href="/board/formWrite">글쓰기</a>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+{{template "footer"}}
